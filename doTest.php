@@ -28,7 +28,7 @@ include('include/header.php');
                     $r=0;
                      $sid=$_SESSION['user_id'];
 
-                      $sx=mysqli_query($conn,"SELECT * FROM test_tbl inner Join student_tbl on student_tbl.student_class=test_tbl.class_id Where student_tbl.student_id=$sid AND test_tbl.test_id NOT IN (SELECT test_id from test_attempt WHERE user_id=".$_SESSION['user_id'].")") or($conn->error);
+                      $sx=mysqli_query($conn,"SELECT * FROM test_tbl inner Join student_tbl  Where student_tbl.student_id=$sid AND test_tbl.test_id NOT IN (SELECT test_id from test_attempt WHERE user_id=".$_SESSION['user_id'].")") or($conn->error);
                       while($t=mysqli_fetch_assoc($sx))
                       {
                         $test=$t['test_id'];

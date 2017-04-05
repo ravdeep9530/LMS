@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION['user_id']))
+{
+    header("Location:./");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">LMS</a>
+                <a class="navbar-brand" href="index.php">LMS</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -80,6 +86,7 @@
                         <li><a href="download_assignment.php"><i class="fa fa-download fa-fw"></i> Download Assignments</a></li>
                         <li><a href="doTest.php"><i class="fa fa-book fa-fw"></i> Give Test</a></li>
                         <li><a href="message.php"><i class="fa fa-envelope fa-fw"></i> Messages</a></li>
+                        <li><a href="studentResult.php"><i class="fa fa-flag fa-fw"></i> Result</a></li>
                         <?php
                       }else {
                         ?>

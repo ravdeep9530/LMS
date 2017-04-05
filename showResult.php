@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-<div class="col-lg-7 col-lg-offset-5" id="res"><h1>Test Name:<?= $_SESSION['tname'] ?></h1></div>
+<div class="col-lg-7 col-lg-offset-5"><h1>Test Name:<?= $_SESSION['tname'] ?></h1></div>
 <div class="col-lg-12">
     <hr/>
 </div>
@@ -37,12 +37,16 @@ $i=0;
 $t=0;
 if (isset($_GET['tid'])) {
     $tid = mysqli_real_escape_string($conn, $_GET['tid']);
-    $sx = mysqli_query($conn, "SELECT test_question.question,test_question.a,test_question.correct_ans,test_question.b,test_question.c,test_question.d,test_attempt.tapid,test_attempt.answer FROM `test_attempt` inner JOIN test_question ON test_attempt.qid=test_question.tq_id WHERE test_attempt.test_id=$tid AND status='1' AND user_id=" . $_SESSION['user_id'] . ";");
+    $sx = mysqli_query($conn, "SELECT test_question.question,test_question.a,test_question.correct_ans,test_question.b,test_question.c,test_question.d,test_attempt.tapid,test_attempt.answer FROM `test_attempt` inner JOIN test_question ON test_attempt.qid=test_question.tq_id WHERE test_attempt.test_id=$tid AND status='0' AND user_id=" . $_SESSION['user_id'] . ";");
     while ($ms = mysqli_fetch_array($sx)) {
-        if ($ms['answer'] == '0')
-            $ans = "Not Attempted";
-        else
-            $ans = $ms['answer'];
+        $ans1="";
+        if ($ms['answer'] == '0') {
+            $ans1 = "Not Attempted";
+        }
+        else{
+            $ans1 = $ms['answer'];
+        }
+
         ?>
         <div class="col-lg-11 panel panel-body panel-default" style="margin-left: 30px;">
             <table>
@@ -66,12 +70,12 @@ if (isset($_GET['tid'])) {
                     <td><p>Correct Answer:<?= $ms['correct_ans'] ?></p></td>
                 </tr>
                 <tr>
-                    <td><p>Selected Answer:<?= $ans ?></p></td>
+                    <td><p>Selected Answer:<?= $ans1 ?></p></td>
                 </tr>
             </table>
         </div>
         <?php
-        mysqli_query($conn, "UPDATE test_attempt SET status='0' WHERE tapid=" . $ms['tapid']);
+       // mysqli_query($conn, "UPDATE test_attempt SET status='0' WHERE tapid=" . $ms['tapid']);
         if ($ms['answer'] == $ms['correct_ans']) {
             $i++;
             $t++;
@@ -81,10 +85,6 @@ if (isset($_GET['tid'])) {
     }
 
     printf(mysqli_error($conn));
-    include "mail.php";
-   $body="You Secored in ".$_SESSION['tname']." ".$i."/".$t." ";
-    mailme($_SESSION['user_email'],'ravdeeps3@gmail.com','LMS',$_SESSION['tname']." Result Sheet",'androxomail@gmail.com','androxo',$body);
-
 }
 ?>
 <div class="panel panel-default panel-body col-lg-4 col-lg-offset-4" style="text-align: center;">

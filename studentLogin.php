@@ -1,6 +1,7 @@
 <?php
 include('include/config.php');
 $f=1;
+$er="";
 if(isset($_POST['addTeacher'])){
     // [fullname] => Shiabh
     // [email] => bshsh@Hams.com
@@ -10,6 +11,7 @@ if(isset($_POST['addTeacher'])){
     // [subject] => 1
     // [addTeacher] =>
 
+
     $fullname=$_POST['fullname'];
     $email=$_POST['email'];
     $contact=$_POST['contact'];
@@ -17,63 +19,69 @@ if(isset($_POST['addTeacher'])){
     $class=$_POST['class'];
     $loginid=$_POST['loginid'];
     $role="student";
-
-    $ex=mysqli_query($conn,"INSERT INTO `user_table`(`user_full_name`, `user_email`, `user_contact`, `user_login_id`, `user_password`, `user_role`,active)
-  VALUES ('$fullname','$email','$contact','$loginid','$password','$role',0)");
-    if(mysqli_insert_id($conn)!="")
-    {
-        $id=mysqli_insert_id($conn);
-        $as=mysqli_query($conn,"INSERT INTO `student_tbl`(`student_id`, `student_class`) VALUES ('$id','$class')");
-      /*  require 'PHPMailer-master/PHPMailerAutoload.php';
-
-        $mail = new PHPMailer();
-
-        $mail->isSMTP();
-        $mail->SMTPDebug = 0;
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = 'ssl';                               // Set mailer to use SMTP
-        $mail->Host = 'smtp.gmail.com';//'smtp.zoho.com';
-        // Specify main and backup SMTP servers
-        $mail->Port=465;//'587';
-
-        // Enable SMTP authentication
-        $mail->Username = 'ravdeeps3@gmail.com';//'info@technicus.in';                 // SMTP username
-        $mail->Password = 'chandeep12';//'shubham@123';
-        // SMTP password
-        // Enable encryption, 'ssl' also accepted
-
-        $mail->From = 'info@lms.in';
-        $mail->FromName = 'Learning Management System';
-        // Add a recipient
-        $mail->addAddress($email);               // Name is optional
-        $mail->addReplyTo('sadhraguri@gmail.com', 'Learning Management System');
-
-
-        $mail->WordWrap = 100;                                 // Set word wrap to 50 characters
-//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-        $mail->isHTML(true);                                  // Set email format to HTML
-
-        $mail->Subject = 'Successfully Regsisteration in LMS.';
-        $mail->Body    = '<html><h1>Welcome to Learning Management System.</h1><br/>
-<br/><li>UserID:'.$loginid.'</li><li>Password:'.$_POST['password'].'</li>
-<a href="confirmMe.php?hex='.$password.'">Click Here</a> to Activate your LMS Account.
-<h1>Thanks & Regards</h1>
-<p>LMS </p>
-</html>';
-
-        if(!$mail->send()) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-        } else {
-            header('location:manage_student.php');
-        }
-        header('location:manage_student.php');
-
-
-*/
+    $k=mysqli_query($conn,"SELECT * FROM user_table WHERE user_email='$email' OR user_login_id='$loginid'");
+    while($sk=mysqli_fetch_array($k))
+     {
+        $er = "Email ID Or Login ID already exists with us.";
+         break;
     }
+    if($er==""){
+        $ex = mysqli_query($conn, "INSERT INTO `user_table`(`user_full_name`, `user_email`, `user_contact`, `user_login_id`, `user_password`, `user_role`,active)
+  VALUES ('$fullname','$email','$contact','$loginid','$password','$role',0)");
+        if (mysqli_insert_id($conn) != "") {
+            $f=0;
+            $id = mysqli_insert_id($conn);
+            $as = mysqli_query($conn, "INSERT INTO `student_tbl`(`student_id`, `student_class`) VALUES ('$id','$class')");
+            /*  require 'PHPMailer-master/PHPMailerAutoload.php';
 
+              $mail = new PHPMailer();
+
+              $mail->isSMTP();
+              $mail->SMTPDebug = 0;
+              $mail->SMTPAuth = true;
+              $mail->SMTPSecure = 'ssl';                               // Set mailer to use SMTP
+              $mail->Host = 'smtp.gmail.com';//'smtp.zoho.com';
+              // Specify main and backup SMTP servers
+              $mail->Port=465;//'587';
+
+              // Enable SMTP authentication
+              $mail->Username = 'ravdeeps3@gmail.com';//'info@technicus.in';                 // SMTP username
+              $mail->Password = 'chandeep12';//'shubham@123';
+              // SMTP password
+              // Enable encryption, 'ssl' also accepted
+
+              $mail->From = 'info@lms.in';
+              $mail->FromName = 'Learning Management System';
+              // Add a recipient
+              $mail->addAddress($email);               // Name is optional
+              $mail->addReplyTo('sadhraguri@gmail.com', 'Learning Management System');
+
+
+              $mail->WordWrap = 100;                                 // Set word wrap to 50 characters
+      //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+      //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+              $mail->isHTML(true);                                  // Set email format to HTML
+
+              $mail->Subject = 'Successfully Regsisteration in LMS.';
+              $mail->Body    = '<html><h1>Welcome to Learning Management System.</h1><br/>
+      <br/><li>UserID:'.$loginid.'</li><li>Password:'.$_POST['password'].'</li>
+      <a href="confirmMe.php?hex='.$password.'">Click Here</a> to Activate your LMS Account.
+      <h1>Thanks & Regards</h1>
+      <p>LMS </p>
+      </html>';
+
+              if(!$mail->send()) {
+                  echo 'Message could not be sent.';
+                  echo 'Mailer Error: ' . $mail->ErrorInfo;
+              } else {
+                  header('location:manage_student.php');
+              }
+              header('location:manage_student.php');
+
+
+      */
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -109,9 +117,15 @@ if(isset($_POST['addTeacher'])){
         <?php
         if($f==0) {
             ?>
-            <div class="col-lg-12 alert alert-danger"><h4>Incorrect Password/User ID OR Account is not Confirmed.</h4> </div>
+            <div class="col-lg-12 alert alert-success"><h4>Congoratulation!! Your Acount registeration request is submitted our Team contact you very soon.</h4> </div>
 
             <?php
+        }
+        if($er!="")
+        {
+            ?>
+            <div class="col-lg-12 alert alert-warning"><h4><?=$er?></h4> </div>
+        <?php
         }
         ?>
         <div class="col-md-4 col-md-offset-4">
@@ -155,7 +169,18 @@ if(isset($_POST['addTeacher'])){
                         <button class="btn btn-primary form-control" name="addTeacher" type="submit">Sign up</button>
                     </div>
                 </form>
+
             </div>
+        </div>
+        <br/>
+
+        <div class="col-lg-3 panel panel-green">
+
+                <div class="col-lg-12 panel-body">
+
+                    <h5>You have already Account  <a href="./">SignIn</a> </h5>
+                </div>
+
         </div>
     </div>
 </div>

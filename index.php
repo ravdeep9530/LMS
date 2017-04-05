@@ -83,6 +83,12 @@ if(isset($_POST['login']))
                               </div>
                               <button class="btn btn-primary  form-control" name="login" type="submit">Log In</button>
                           </fieldset>
+                          <fieldset>
+                              <div class="col-lg-12">
+                                  <hr/>
+                                  <h5>New User <a href="studentLogin.php">SignUp</a> </h5>
+                              </div>
+                          </fieldset>
                       </form>
                   </div>
               </div>
