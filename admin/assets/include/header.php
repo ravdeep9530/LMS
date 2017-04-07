@@ -46,7 +46,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> User <b class="caret"></b> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="manage_user.php">Pending User</a></li>
+                        <!--<li><a href="manage_user.php">Pending User</a></li>-->
                         <li><a href="manage_student.php">Manage Student</a></li>
                         <li><a href="manage_teacher.php">Manage Teacher</a></li>
                     </ul>

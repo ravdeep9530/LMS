@@ -16,7 +16,8 @@ if (isset($_POST['saveEx'])) {
     $subject = $_POST['subject'];
     $nm = $_POST['testName'];
     $noq = $_POST['noq'];
-    $cid = $_POST['c_id'];
+   // $cid = $_POST['c_id'];
+    $cid='';
     $xc = mysqli_query($conn, "INSERT INTO `test_tbl`(`subject_id`, `quiz_name`, `uploaded_by`,noq,class_id)
   VALUES ('$subject','$nm','$uid',$noq,$cid)");
     $test = mysqli_insert_id($conn);
@@ -52,7 +53,7 @@ include('include/header.php');
                     <label>Test Name</label>
                     <input type="text" class="form-control" required name="testName"/>
                 </div>
-                <div class="form-group">
+              <!--  <div class="form-group">
                     <label>Class</label>
                     <select class="form-control" name="c_id" required>
                         <?php
@@ -64,7 +65,7 @@ include('include/header.php');
                         }
                         ?>
                     </select>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label>No of Question</label>
                     <select class="form-control" name="noq" required>

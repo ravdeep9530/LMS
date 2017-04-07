@@ -32,12 +32,24 @@ if(isset($_POST['addTeacher'])){
             $f=0;
             $id = mysqli_insert_id($conn);
             $as = mysqli_query($conn, "INSERT INTO `student_tbl`(`student_id`, `student_class`) VALUES ('$id','$class')");
+            include "mail.php";
+            $body= '<html><h1>Welcome to Learning Management System.</h1><br/>
+<br/><li>UserID:'.$loginid.'</li><li>password:'.$_POST['password'].'</li>
+<br>
+<hr/>
+<a href="confirmMe.php?hex='.$password.'">Click Here</a> to Activate your LMS Account.
+<br/>
+<hr/>
+<h1>Thanks & Regards</h1>
+<p>LMS </p>
+</html>';
+            mailme($email,'ravdeeps3@gmail.com','LMS','Congratulation '.$fullname.' ,Your Regsisteration Successfully Completed in LMS.','ravdeeps3@gmail.com','support LMS',$body);
             /*  require 'PHPMailer-master/PHPMailerAutoload.php';
 
               $mail = new PHPMailer();
 
               $mail->isSMTP();
-              $mail->SMTPDebug = 0;
+              $mail->SMTPDebug = 0;a
               $mail->SMTPAuth = true;
               $mail->SMTPSecure = 'ssl';                               // Set mailer to use SMTP
               $mail->Host = 'smtp.gmail.com';//'smtp.zoho.com';

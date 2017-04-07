@@ -13,7 +13,7 @@ include('include/header.php');
             <div class="row">
               <?php
                   $class=$_SESSION['teacher_class'];
-                  $sx=mysqli_query($conn,"SELECT * FROM user_table INNER JOIN student_tbl WHERE user_table.user_id=student_tbl.student_id AND student_class='$class'");
+                  $sx=mysqli_query($conn,"SELECT * FROM user_table INNER JOIN student_tbl WHERE user_table.user_id=student_tbl.student_id ");
                   while($ans=mysqli_fetch_assoc($sx))
                   {
                     ?>

@@ -20,7 +20,10 @@ include('include/header.php');
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-4">
+                <?php if($_SESSION['user_role']=='teacher'){
+
+               ?>
+               <div class="col-lg-4">
                   <form action="" method="post">
                     <div class="form-group">
                       <label>Message for</label>
@@ -51,7 +54,7 @@ include('include/header.php');
                     </div>
                     <button class="btn btn-primary form-control" type="submit">Send Message</button>
                   </form>
-                </div>
+                </div><?php }?>
                 <div class="col-lg-8 panel panel-green">
 
                   <table class="table table-bordered">
@@ -72,7 +75,7 @@ include('include/header.php');
                     <tbody>
                       <?php
                         $user_id=$_SESSION['user_id'];
-                        $sc=mysqli_query($conn,"SELECT (SELECT user_full_name FROM user_table WHERE user_table.user_id=message.from_user) AS frm,message.subject,message.body FROM message WHERE to_user='$user_id'");
+                        $sc=mysqli_query($conn,"SELECT (SELECT user_full_name FROM user_table WHERE user_table.user_id=message.from_user) AS frm,message.subject,message.body FROM message WHERE to_user='$user_id' ORDER BY message.message_id DESC ");
                         while($ms=mysqli_fetch_assoc($sc))
                         {
                           ?>
